@@ -88,6 +88,7 @@ export class SkillsStar extends React.Component {
 
     const x = currentPoint.x;
     const y = currentPoint.y;
+    const pointRadius = 2;
     let text = null;
 
     // TODO put this text in a separate component
@@ -103,19 +104,20 @@ export class SkillsStar extends React.Component {
         console.log('Second quadrant', currentPoint.text);
         textYOffset = 20;
       }
+
+      let fontSize = 18;
+
       if(currentPoint.x < 0 && currentPoint.y < 0) {
         console.log('Third quadrant', currentPoint.text);
-        textXOffset = - currentPoint.text?.length * 7; // TODO use font size
+        textXOffset = - currentPoint.text?.length * fontSize*0.6 - 10; // TODO use font size
       }
       if(currentPoint.x < 0 && currentPoint.y >= 0) {
         console.log('Forth quadrant', currentPoint.text);
-        textXOffset = - currentPoint.text?.length * 7; // TODO use font size
+        textXOffset = - currentPoint.text?.length * fontSize*0.6 - 10; // TODO use font size
       }
 
-      console.log('Rendering TEXT', x, y)
-
       text = <text key={`${currentPoint.id}-${x}-${y}-text`}
-                   fontSize="12px"
+                   fontSize={fontSize+"px"}
                    fontFamily="monospace"
                    x={x + textXOffset}
                    y={y + textYOffset}
@@ -129,7 +131,7 @@ export class SkillsStar extends React.Component {
         <circle
           cx={x}
           cy={y}
-          r="4"
+          r={pointRadius}
           fill="black"
           key={`${currentPoint.id}-${x}-${y}`}
         />
