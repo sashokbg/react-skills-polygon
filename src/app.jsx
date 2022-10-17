@@ -22,7 +22,7 @@ export class App extends Component {
 
     return (
       <div>
-        <SkillsStar points={this.state.points} ref={this.skillsStar}/>
+        <SkillsStar radius={90} points={this.state.points} ref={this.skillsStar}/>
 
         {this.state.pointInputs}
 
@@ -48,7 +48,7 @@ export class App extends Component {
 
     points.push(point)
     pointInputs.push(
-      <PointInput point={point} handler={() => this.inputsHandler(point)}/>
+      <PointInput key={point.id} point={point} handler={() => this.inputsHandler(point)}/>
     )
 
     this.setState({

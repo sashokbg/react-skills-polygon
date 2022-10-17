@@ -11,6 +11,10 @@ export class SkillsStar extends React.Component {
   }
 
   render() {
+    let radius = this.props.radius;
+
+    this.calculatePositions(radius)
+
     console.log('Rendering skill star', this.state);
     return (
       <div>
@@ -22,45 +26,76 @@ export class SkillsStar extends React.Component {
             fill="transparent"
             stroke="#000000"
           />
-          {this.renderPoints(90)}
-          {this.connectPoints()}
+          {this.renderPoints(radius)}
+          {this.connectInnerPoints()}
+          {this.connectOuterPoints()}
+          {this.renderOuterPoints(radius)}
         </svg>
       </div>
 
     );
   }
 
-  renderPoints(r) {
-    let dots = [];
-
+  calculatePositions(r) {
     let n = this.state.points.length;
 
     for (let i = 0; i < n; i++) {
       const currentPoint = this.state.points[i];
+      currentPoint.calculatePosition(i * 360 / n, r / 10 * currentPoint.value);
 
-      dots.push(this.renderPoint(currentPoint, i * 360 / n, r));
-      dots.push(this.renderPoint(currentPoint, i * 360 / n, r / 10 * currentPoint.value));
+      const outerPoint = this.state.points[i].clone();
+      outerPoint.calculatePosition(i * 360 / n, r);
+      currentPoint.outerPoint = outerPoint;
+    }
+  }
+
+  renderPoints() {
+    let dots = [];
+
+    for(let p of this.state.points) {
+      dots.push(this.renderPoint(p));
     }
 
     return dots;
   }
 
-  connectPoints() {
-    const pointsString = this.state.points.reduce((previous, point) => previous + " " + point.x + "," + point.y , "");
+  renderOuterPoints() {
+    let dots = [];
+    for(let p of this.state.points) {
+      dots.push(this.renderPoint(p.outerPoint, true));
+    }
+
+    return dots;
+  }
+
+  connectInnerPoints() {
+    const pointsString = this.state.points.reduce((previous, point) => previous + " " + point.x + "," + point.y, "");
     return (
-      <polygon points={pointsString} style={{fill: "lime", stroke: "purple"}} />
+      <polygon points={pointsString} style={{fill: "lime", stroke: "purple"}}/>
     )
   }
 
-  renderPoint(currentPoint, angle, r) {
-    const sinX = Math.sin(angle * Math.PI / 180)
-    const sinY = Math.sin((90 - angle) * Math.PI / 180)
+  connectOuterPoints() {
+    const lines = [];
 
-    const x = sinX * r;
-    const y = sinY * r;
+    for(let p of this.state.points) {
+      lines.push(
+        <line key={p.id + "-" + p.outerPoint.id} x1={p.x} y1={p.y} x2={p.outerPoint.x} y2={p.outerPoint.y} stroke="red"/>
+      )
+    }
 
-    currentPoint.x = x;
-    currentPoint.y = y;
+    return lines;
+  }
+
+  renderPoint(currentPoint, outer) {
+
+    const x = currentPoint.x;
+    const y = currentPoint.y;
+    let text = null;
+
+    if (outer) {
+      text = <text x={x} y={y} fill="red">{currentPoint.text}</text>;
+    }
 
     return (
       <Fragment key={currentPoint.id + "-" + currentPoint.x + "-" + currentPoint.y}>
@@ -70,7 +105,7 @@ export class SkillsStar extends React.Component {
           r="4"
           fill="black"
         />
-        <line x1={0} y1={0} x2={x} y2={y} stroke="red"/>
+        {text}
       </Fragment>
     )
   }

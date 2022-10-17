@@ -12,14 +12,18 @@ export default class PointInput extends  Component{
   render() {
     return (
       <div>
-        <input type="number" onChange={(e) => this.handle(e)}/>
+        <input type="number" onChange={(e) => this.handleValue(e)} placeholder="Value 1-10"/>
+        <input type="text" onChange={(e) => this.handleValue(e)} placeholder="Text"/>
       </div>
     )
   }
 
-  handle(e) {
-    this.state.point.value = e.target.value;
-    console.log('Updating point', this.state.point);
+  handleValue(e) {
+    if(e.target.type === 'text') {
+      this.state.point.text = e.target.value;
+    } else {
+      this.state.point.value = e.target.value;
+    }
     this.props.handler(this.state.point);
   }
 }
