@@ -20,5 +20,6 @@ export default class PointInput extends  Component{
   handle(e) {
     this.state.point.value = e.target.value;
     console.log('Updating point', this.state.point);
+    this.props.handler(this.state.point);
   }
 }

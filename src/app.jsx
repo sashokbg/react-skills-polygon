@@ -32,7 +32,6 @@ export class App extends Component {
 
         <button onClick={() => {
           this.forceUpdate();
-          this.skillsStar.current.setState({points: this.state.points})
         }
         }>
           Done
@@ -49,12 +48,18 @@ export class App extends Component {
 
     points.push(point)
     pointInputs.push(
-      <PointInput point={point}/>
+      <PointInput point={point} handler={() => this.inputsHandler(point)}/>
     )
 
     this.setState({
       points: points,
       pointInputs: pointInputs
     });
+  }
+
+  inputsHandler(point) {
+    console.log("Handling input", point)
+    this.skillsStar.current.setState({points: this.state.points})
+    this.forceUpdate()
   }
 }
