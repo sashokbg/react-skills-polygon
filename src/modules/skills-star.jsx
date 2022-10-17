@@ -90,8 +90,38 @@ export class SkillsStar extends React.Component {
     const y = currentPoint.y;
     let text = null;
 
+    // TODO put this text in a separate component
     if (outer) {
-      text = <text x={x} y={y} fill="red">{currentPoint.text}</text>;
+      let textXOffset = 0;
+      let textYOffset = 0;
+
+      if(currentPoint.x > 0 && currentPoint.y < 0) { // first quandrant
+        console.log('First quadrant', currentPoint.text);
+        textYOffset = -5;
+      }
+      if(currentPoint.x >= 0 && currentPoint.y >= 0) {
+        console.log('Second quadrant', currentPoint.text);
+        textYOffset = 20;
+      }
+      if(currentPoint.x < 0 && currentPoint.y < 0) {
+        console.log('Third quadrant', currentPoint.text);
+        textXOffset = - currentPoint.text?.length * 7; // TODO use font size
+      }
+      if(currentPoint.x < 0 && currentPoint.y >= 0) {
+        console.log('Forth quadrant', currentPoint.text);
+        textXOffset = - currentPoint.text?.length * 7; // TODO use font size
+      }
+
+      console.log('Rendering TEXT', x, y)
+
+      text = <text key={`${currentPoint.id}-${x}-${y}-text`}
+                   fontSize="12px"
+                   fontFamily="monospace"
+                   x={x + textXOffset}
+                   y={y + textYOffset}
+                   fill="red">
+        {currentPoint.text}
+      </text>;
     }
 
     return (
