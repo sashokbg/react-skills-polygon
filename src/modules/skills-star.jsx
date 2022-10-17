@@ -3,7 +3,6 @@ import React, {Fragment} from "react";
 export class SkillsStar extends React.Component {
   constructor(props) {
     super(props);
-    console.log('Props', this.props);
 
     this.state = {
       points: this.props.points
@@ -12,13 +11,11 @@ export class SkillsStar extends React.Component {
 
   render() {
     let radius = this.props.radius;
-
     this.calculatePositions(radius)
 
-    console.log('Rendering skill star', this.state);
     return (
-      <div>
-        <svg width="200" height="200" viewBox="-100 -100 300 300">
+      < >
+        <svg width="200" height="200" viewBox="-200 -200 400 400">
           <circle
             cx="0"
             cy="0"
@@ -31,7 +28,7 @@ export class SkillsStar extends React.Component {
           {this.connectOuterPoints()}
           {this.renderOuterPoints(radius)}
         </svg>
-      </div>
+      </ >
 
     );
   }
@@ -71,7 +68,7 @@ export class SkillsStar extends React.Component {
   connectInnerPoints() {
     const pointsString = this.state.points.reduce((previous, point) => previous + " " + point.x + "," + point.y, "");
     return (
-      <polygon points={pointsString} style={{fill: "lime", stroke: "purple"}}/>
+      <polygon key="polygon" points={pointsString} style={{fill: "lime", stroke: "purple"}}/>
     )
   }
 
@@ -104,6 +101,7 @@ export class SkillsStar extends React.Component {
           cy={y}
           r="4"
           fill="black"
+          key={`${currentPoint.id}-${x}-${y}`}
         />
         {text}
       </Fragment>
