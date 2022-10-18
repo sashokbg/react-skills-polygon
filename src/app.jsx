@@ -3,6 +3,7 @@ import {SkillsStar} from "./modules/skills-star.jsx";
 import React from 'react';
 import PointInput from "./modules/point-input";
 import {Point} from "./model/point.js";
+import {Polygon} from "./model/polygon.js";
 
 export class App extends Component {
   lastId = 0;
@@ -61,9 +62,7 @@ export class App extends Component {
     });
   }
 
-  // Example: Parent to child
   inputsHandler(point) {
-    console.log("Handling input", point)
-    this.skillsStar.current.setState({points: this.state.points})
+    this.skillsStar.current.setState({polygon: new Polygon(this.state.points)})
   }
 }

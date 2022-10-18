@@ -8,8 +8,8 @@ export class Point {
   }
 
   calculatePosition(angle, r) {
-    const sinX = Math.sin(angle * Math.PI / 180)
-    const sinY = Math.sin((90 - angle) * Math.PI / 180)
+    const sinX = Math.sin(angle * (Math.PI / 180)).toFixed(3)
+    const sinY = Math.sin((90 - angle) * Math.PI / 180).toFixed(3)
 
     const x = sinX * r;
     const y = sinY * r;

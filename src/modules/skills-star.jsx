@@ -1,17 +1,26 @@
 import React, {Fragment} from "react";
+import {Polygon} from "../model/polygon.js";
 
 export class SkillsStar extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      points: this.props.points
+      polygon: new Polygon(this.props.points),
     }
+  }
+
+  get points() {
+    return this.state.polygon.points;
+  }
+
+  get polygon() {
+    return this.state.polygon;
   }
 
   render() {
     let radius = this.props.radius;
-    this.calculatePositions(radius)
+    this.polygon.calculatePositions(radius)
 
     return (
       < >
@@ -33,23 +42,11 @@ export class SkillsStar extends React.Component {
     );
   }
 
-  calculatePositions(r) {
-    let n = this.state.points.length;
-
-    for (let i = 0; i < n; i++) {
-      const currentPoint = this.state.points[i];
-      currentPoint.calculatePosition(i * 360 / n, r / 10 * currentPoint.value);
-
-      const outerPoint = this.state.points[i].clone();
-      outerPoint.calculatePosition(i * 360 / n, r);
-      currentPoint.outerPoint = outerPoint;
-    }
-  }
 
   renderPoints() {
     let dots = [];
 
-    for(let p of this.state.points) {
+    for(let p of this.points) {
       dots.push(this.renderPoint(p));
     }
 
@@ -58,7 +55,7 @@ export class SkillsStar extends React.Component {
 
   renderOuterPoints() {
     let dots = [];
-    for(let p of this.state.points) {
+    for(let p of this.points) {
       dots.push(this.renderPoint(p.outerPoint, true));
     }
 
@@ -66,7 +63,7 @@ export class SkillsStar extends React.Component {
   }
 
   connectInnerPoints() {
-    const pointsString = this.state.points.reduce((previous, point) => previous + " " + point.x + "," + point.y, "");
+    const pointsString = this.points.reduce((previous, point) => previous + " " + point.x + "," + point.y, "");
     return (
       <polygon key="polygon" points={pointsString} style={{fill: "lime", stroke: "purple"}}/>
     )
@@ -75,7 +72,7 @@ export class SkillsStar extends React.Component {
   connectOuterPoints() {
     const lines = [];
 
-    for(let p of this.state.points) {
+    for(let p of this.points) {
       lines.push(
         <line key={p.id + "-" + p.outerPoint.id} x1={p.x} y1={p.y} x2={p.outerPoint.x} y2={p.outerPoint.y} stroke="red"/>
       )
