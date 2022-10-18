@@ -28,4 +28,23 @@ export class Point {
       this.text
     )
   }
+
+  findQuadrant() {
+    if(this.x >= 0 && this.y >= 0) {
+      return 1;
+    }
+    if(this.x > 0 && this.y < 0) {
+      return 2;
+    }
+    if(this.x < 0 && this.y < 0) {
+      return 3;
+    }
+    if(this.x < 0 && this.y >= 0) {
+      return 4;
+    }
+  }
+
+  print() {
+    return ""
+  }
 }

@@ -74,21 +74,4 @@ describe("Polygon", () => {
     })
   });
 
-  describe("It calculates the quadrant of a point", () => {
-    test.each([
-      [0, 0, 1],
-      [0, 50, 1],
-      [0, 25, 1],
-      [50, 0, 1],
-      [50, -1, 2],
-      [50, -50, 2],
-      [-50, -50, 3],
-      [-50, 50, 4],
-    ])("Point coordinates x=%s, y=%s gives quadrant %s", (x, y, quadrant) => {
-      let point = new Point(1, x, y, 5, "test");
-      const polygon = new Polygon([point]);
-
-      expect(polygon.findQuadrant(point)).toBe(quadrant);
-    })
-  })
 })

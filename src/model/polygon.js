@@ -28,20 +28,4 @@ export class Polygon {
     }
   }
 
-  findQuadrant(point) {
-    this.points.find((p) => p.id === point.id);
-
-    if(point.x >= 0 && point.y >= 0) {
-      return 1;
-    }
-    if(point.x > 0 && point.y < 0) {
-      return 2;
-    }
-    if(point.x < 0 && point.y < 0) {
-      return 3;
-    }
-    if(point.x < 0 && point.y >= 0) {
-      return 4;
-    }
-  }
 }
