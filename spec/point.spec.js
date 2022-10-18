@@ -1,6 +1,6 @@
 import {Point} from "../src/model/point.js";
 
-describe("point", () => {
+describe("A point", () => {
   it("Can calculate its position given a radius and an angle", () => {
     const point = new Point(0, 0, 0, 5, "Some text");
     point.calculatePosition(30, 100);
