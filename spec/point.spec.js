@@ -19,4 +19,9 @@ describe("A point", () => {
     expect(point.id + "-clone").toEqual(point2.id);
     expect(point.text).toEqual(point2.text);
   });
+
+  it("Is not outer by defalt", () => {
+    const point = new Point(0, 0, 0, 5, "Some text");
+    expect(point.isOuter).toEqual(false);
+  })
 })

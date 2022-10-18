@@ -1,7 +1,8 @@
 import React, {Fragment} from "react";
 import {Polygon} from "../model/polygon.js";
+import {PointLabel} from "./point-label";
 
-export class SkillsStar extends React.Component {
+export class SkillsPolygon extends React.Component {
   constructor(props) {
     super(props);
 
@@ -20,7 +21,7 @@ export class SkillsStar extends React.Component {
 
   render() {
     let radius = this.props.radius;
-    this.polygon.calculatePositions(radius)
+    this.polygon.calculatePointPositions(radius)
 
     return (
       < >
@@ -81,47 +82,10 @@ export class SkillsStar extends React.Component {
     return lines;
   }
 
-  renderPoint(currentPoint, outer) {
-
+  renderPoint(currentPoint) {
     const x = currentPoint.x;
     const y = currentPoint.y;
     const pointRadius = 2;
-    let text = null;
-
-    // TODO put this text in a separate component
-    if (outer) {
-      let textXOffset = 0;
-      let textYOffset = 0;
-
-      if(currentPoint.x > 0 && currentPoint.y < 0) { // first quandrant
-        console.log('First quadrant', currentPoint.text);
-        textYOffset = -5;
-      }
-      if(currentPoint.x >= 0 && currentPoint.y >= 0) {
-        console.log('Second quadrant', currentPoint.text);
-        textYOffset = 20;
-      }
-
-      let fontSize = 18;
-
-      if(currentPoint.x < 0 && currentPoint.y < 0) {
-        console.log('Third quadrant', currentPoint.text);
-        textXOffset = - currentPoint.text?.length * fontSize*0.6 - 10; // TODO use font size
-      }
-      if(currentPoint.x < 0 && currentPoint.y >= 0) {
-        console.log('Forth quadrant', currentPoint.text);
-        textXOffset = - currentPoint.text?.length * fontSize*0.6 - 10; // TODO use font size
-      }
-
-      text = <text key={`${currentPoint.id}-${x}-${y}-text`}
-                   fontSize={fontSize+"px"}
-                   fontFamily="monospace"
-                   x={x + textXOffset}
-                   y={y + textYOffset}
-                   fill="red">
-        {currentPoint.text}
-      </text>;
-    }
 
     return (
       <Fragment key={currentPoint.id + "-" + currentPoint.x + "-" + currentPoint.y}>
@@ -132,7 +96,7 @@ export class SkillsStar extends React.Component {
           fill="black"
           key={`${currentPoint.id}-${x}-${y}`}
         />
-        {text}
+        <PointLabel point={currentPoint} />
       </Fragment>
     )
   }

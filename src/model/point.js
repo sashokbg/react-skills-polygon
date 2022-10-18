@@ -5,6 +5,7 @@ export class Point {
     this.y = y;
     this.value = value;
     this.text = text;
+    this.isOuter = false;
   }
 
   calculatePosition(angle, r) {

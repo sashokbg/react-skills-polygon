@@ -1,5 +1,5 @@
 import {Component, Fragment, useState} from "react";
-import {SkillsStar} from "./modules/skills-star.jsx";
+import {SkillsPolygon} from "./modules/skills-polygon.jsx";
 import React from 'react';
 import PointInput from "./modules/point-input";
 import {Point} from "./model/point.js";
@@ -27,13 +27,13 @@ export class App extends Component {
         <PointInput key="C" point={p3} handler={() => this.inputsHandler(p3)}/>
       ]
     }
-    this.skillsStar = React.createRef();
+    this.skillsPolygon = React.createRef();
   }
 
   render() {
     return (
       <div>
-        <SkillsStar radius={90} points={this.state.points} ref={this.skillsStar}/>
+        <SkillsPolygon radius={90} points={this.state.points} ref={this.skillsPolygon}/>
 
         {this.state.pointInputs}
 
@@ -63,6 +63,6 @@ export class App extends Component {
   }
 
   inputsHandler(point) {
-    this.skillsStar.current.setState({polygon: new Polygon(this.state.points)})
+    this.skillsPolygon.current.setState({polygon: new Polygon(this.state.points)})
   }
 }
