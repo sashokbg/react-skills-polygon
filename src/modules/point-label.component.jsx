@@ -25,13 +25,27 @@ export class PointLabelComponent extends Component {
     let textYOffset = 0;
 
     if (!this.point.isOuter) {
-      const tempPoint = this.point.clone();
-      tempPoint.move(this.point.value + 1);
-      
-      return <text key={this.getKey(this.point.x, this.point.y)} fontStyle={{color: 'red'}}
-                   x={tempPoint.x + textXOffset}
-                   y={tempPoint.y + textYOffset}
-      >{this.point.value} TOTO</text>
+      switch (this.point.findQuadrant()) {
+        case 1:
+          textYOffset = 20;
+          textXOffset = 5;
+          break;
+        case 2:
+          textYOffset = -10;
+          break;
+        case 3:
+          textYOffset = -10;
+          break;
+        case 4:
+          textXOffset = this.point.value > 9 ? -30 : -20;
+          break;
+      }
+      return <text key={this.getKey()}
+                   fontWeight="bold"
+                   fontSize={this.fontSize + 'px'}
+                   x={x + textXOffset}
+                   y={y + textYOffset}
+      >{this.point.value}</text>
     }
     
     switch (this.point.findQuadrant()) {
@@ -39,14 +53,15 @@ export class PointLabelComponent extends Component {
         textYOffset = 40;
         break;
       case 2:
-        textYOffset = -20;
+        textYOffset = -28;
+        textXOffset = 40;
         break;
       case 3:
-        textYOffset = -20;
-        textXOffset = -this.point.text?.length * this.fontSize * FONT_RATIO - 30;
+        textYOffset = -28;
+        textXOffset = -this.point.text?.length * this.fontSize * FONT_RATIO;
         break;
       case 4:
-        textXOffset = -this.point.text?.length * this.fontSize * FONT_RATIO - 30;
+        textXOffset = -this.point.text?.length * this.fontSize * FONT_RATIO;
         textYOffset = 50;
         break;
     }
@@ -54,6 +69,7 @@ export class PointLabelComponent extends Component {
     return <text key={this.getKey(x, y)}
                  fontSize={this.fontSize + "px"}
                  fontFamily="monospace"
+                 fontWeight="bold"
                  x={x + textXOffset}
                  y={y + textYOffset}
                  fill={this.fontColor}>
@@ -61,7 +77,7 @@ export class PointLabelComponent extends Component {
     </text>;
   }
 
-  getKey(x, y) {
-    return  `${this.point.id}-${x}-${y}-text`;
+  getKey() {
+    return  `${this.point.id}-${this.point.x}-${this.point.y}-text`;
   }
 }

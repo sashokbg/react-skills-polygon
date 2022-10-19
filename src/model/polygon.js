@@ -24,6 +24,7 @@ export class Polygon {
 
       const outerPoint = this.points[i].clone();
       outerPoint.isOuter = true;
+      
       outerPoint.calculatePosition(i * 360 / n, radius);
       currentPoint.outerPoint = outerPoint;
       outerPoints.push(outerPoint);

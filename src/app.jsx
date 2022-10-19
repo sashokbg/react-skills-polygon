@@ -5,8 +5,6 @@ import {SkillsPolygon} from "./modules/skills-polygon.component";
 import {PointInputComponent} from "./modules/point-input.component";
 
 export class App extends Component {
-  lastId = 0;
-
   constructor(props) {
     super(props);
 
@@ -15,7 +13,6 @@ export class App extends Component {
     const p3 = new Point(0, 0, 8, "Agile");
     const p4 = new Point(0, 0, 9, "Testing");
     const p5 = new Point(0, 0, 4, "Soft Skills");
-    const p6 = new Point(0, 0, 10, "Development");
 
     this.state = {
       points: [
@@ -24,7 +21,6 @@ export class App extends Component {
         p3,
         p4,
         p5,
-        p6
       ],
       pointInputs: [
         <PointInputComponent key="A" point={p1} handler={() => this.inputsHandler(p1)}/>,
@@ -32,7 +28,6 @@ export class App extends Component {
         <PointInputComponent key="C" point={p3} handler={() => this.inputsHandler(p3)}/>,
         <PointInputComponent key="D" point={p4} handler={() => this.inputsHandler(p4)}/>,
         <PointInputComponent key="E" point={p5} handler={() => this.inputsHandler(p5)}/>,
-        <PointInputComponent key="F" point={p6} handler={() => this.inputsHandler(p6)}/>
       ]
     }
     this.skillsPolygon = React.createRef();
@@ -41,7 +36,7 @@ export class App extends Component {
   render() {
     return (
       <div>
-        <SkillsPolygon radius={200} points={this.state.points} ref={this.skillsPolygon}/>
+        <SkillsPolygon fontSize="24" baseColor="#FF0000" radius={200} points={this.state.points} ref={this.skillsPolygon}/>
 
         {this.state.pointInputs}
 
@@ -71,6 +66,6 @@ export class App extends Component {
   }
 
   inputsHandler(point) {
-    this.skillsPolygon.current.handler(point);
+    this.skillsPolygon.current.setState({polygon: new Polygon(this.state.points)});
   }
 }

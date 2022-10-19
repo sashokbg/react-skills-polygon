@@ -14,7 +14,7 @@ export class PointComponent extends Component {
   render() {
     const x = this.point.x;
     const y = this.point.y;
-    const pointRadius = 2;
+    const pointRadius = 6;
 
     return (
       < >
@@ -22,10 +22,11 @@ export class PointComponent extends Component {
           cx={x}
           cy={y}
           r={pointRadius}
-          fill="black"
+          fill="gold"
+          stroke="black"
           key={`${this.id}-${x}-${y}`}
         />
-        <PointLabelComponent key={this.point.id +""+ this.point.text} fontSize={this.point.fontSize} fontColor={this.point.fontColor} point={this.point}/>
+        <PointLabelComponent key={this.point.id +""+ this.point.text} fontSize={this.props.fontSize} fontColor={this.point.fontColor} point={this.point}/>
       </ >
     )
   }
