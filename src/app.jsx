@@ -33,7 +33,7 @@ export class App extends Component {
   render() {
     return (
       <div>
-        <SkillsPolygon radius={90} points={this.state.points} ref={this.skillsPolygon}/>
+        <SkillsPolygon radius={200} points={this.state.points} ref={this.skillsPolygon}/>
 
         {this.state.pointInputs}
 

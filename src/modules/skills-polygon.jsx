@@ -9,6 +9,13 @@ export class SkillsPolygon extends React.Component {
     this.state = {
       polygon: new Polygon(this.props.points),
     }
+
+    this.config = {
+      fontSize: this.props.fontSize ? this.props.fontSize : 18,
+      fontColor: this.props.fontColor ? this.props.fontColor : 'black',
+      radius: this.props.radius ? this.props.radius : 90,
+      fillColor: this.props.fillColor ? this.props.fillColor : 'gray',
+    }
   }
 
   get points() {
@@ -29,7 +36,7 @@ export class SkillsPolygon extends React.Component {
           <circle
             cx="0"
             cy="0"
-            r="90"
+            r={this.config.radius}
             fill="transparent"
             stroke="#000000"
           />
@@ -47,7 +54,7 @@ export class SkillsPolygon extends React.Component {
   renderPoints() {
     let dots = [];
 
-    for(let p of this.points) {
+    for (let p of this.points) {
       dots.push(this.renderPoint(p));
     }
 
@@ -56,7 +63,7 @@ export class SkillsPolygon extends React.Component {
 
   renderOuterPoints() {
     let dots = [];
-    for(let p of this.points) {
+    for (let p of this.points) {
       dots.push(this.renderPoint(p.outerPoint, true));
     }
 
@@ -66,16 +73,20 @@ export class SkillsPolygon extends React.Component {
   connectInnerPoints() {
     const pointsString = this.points.reduce((previous, point) => previous + " " + point.x + "," + point.y, "");
     return (
-      <polygon key="polygon" points={pointsString} style={{fill: "lime", stroke: "purple"}}/>
+      <polygon
+        key="polygon"
+        points={pointsString}
+        style={{fill: this.config.fillColor, stroke: this.config.fillColor}}/>
     )
   }
 
   connectOuterPoints() {
     const lines = [];
 
-    for(let p of this.points) {
+    for (let p of this.points) {
       lines.push(
-        <line key={p.id + "-" + p.outerPoint.id} x1={p.x} y1={p.y} x2={p.outerPoint.x} y2={p.outerPoint.y} stroke="red"/>
+        <line key={p.id + "-" + p.outerPoint.id} x1={p.x} y1={p.y} x2={p.outerPoint.x} y2={p.outerPoint.y}
+              stroke="red"/>
       )
     }
 
@@ -96,7 +107,7 @@ export class SkillsPolygon extends React.Component {
           fill="black"
           key={`${currentPoint.id}-${x}-${y}`}
         />
-        <PointLabel point={currentPoint} />
+        <PointLabel fontSize={this.config.fontSize} fontColor={this.config.fontColor} point={currentPoint}/>
       </Fragment>
     )
   }
