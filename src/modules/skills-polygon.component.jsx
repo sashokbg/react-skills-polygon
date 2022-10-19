@@ -1,6 +1,6 @@
-import React, {Fragment} from "react";
+import React from "react";
 import {Polygon} from "../model/polygon.js";
-import {PointLabel} from "./point-label";
+import {PointComponent} from "./point.component";
 
 export class SkillsPolygon extends React.Component {
   constructor(props) {
@@ -21,57 +21,62 @@ export class SkillsPolygon extends React.Component {
   get points() {
     return this.state.polygon.points;
   }
+  
+  get innerPoints() {
+    return this.points.filter(p => !p.isOuter);
+  }
+  
+  get outerPoints() {
+    return this.points.filter(p => p.isOuter);
+  }
 
   get polygon() {
     return this.state.polygon;
   }
 
   render() {
-    let radius = this.props.radius;
-    this.polygon.calculatePointPositions(radius)
-
+    this.state.points = this.innerPoints;
+    
+    let radius = this.config.radius;
+    let outerPoints = this.polygon.calculatePointPositions(radius)
+    
+    console.log('Outer points', outerPoints);
+    
+    const paddingRatio = 1.6;
+    
+    const viewBoxSize = `-${paddingRatio * radius} -${paddingRatio * radius} ${ 2 * paddingRatio * radius} ${2 * paddingRatio * radius}`;
+    
     return (
       < >
-        <svg width="200" height="200" viewBox="-200 -200 400 400">
+        <svg width={2 * radius} height={2 * radius} viewBox={viewBoxSize}>
           <circle
             cx="0"
             cy="0"
-            r={this.config.radius}
+            r={radius}
             fill="transparent"
             stroke="#000000"
           />
-          {this.renderPoints(radius)}
-          {this.connectInnerPoints()}
+          {this.renderPoints(outerPoints)}
+          {this.renderPoints(this.points)}
           {this.connectOuterPoints()}
-          {this.renderOuterPoints(radius)}
         </svg>
       </ >
 
     );
   }
 
-
-  renderPoints() {
+  renderPoints(points) {
     let dots = [];
 
-    for (let p of this.points) {
-      dots.push(this.renderPoint(p));
-    }
-
-    return dots;
-  }
-
-  renderOuterPoints() {
-    let dots = [];
-    for (let p of this.points) {
-      dots.push(this.renderPoint(p.outerPoint, true));
+    for (let p of points) {
+      dots.push(<PointComponent key={p.id} point={p} fontSize={this.config.fontSize} fontColor={this.config.fontColor}/>);
     }
 
     return dots;
   }
 
   connectInnerPoints() {
-    const pointsString = this.points.reduce((previous, point) => previous + " " + point.x + "," + point.y, "");
+    const pointsString = this.innerPoints.reduce((previous, point) => previous + " " + point.x + "," + point.y, "");
     return (
       <polygon
         key="polygon"
@@ -83,7 +88,7 @@ export class SkillsPolygon extends React.Component {
   connectOuterPoints() {
     const lines = [];
 
-    for (let p of this.points) {
+    for (let p of this.innerPoints) {
       lines.push(
         <line key={p.id + "-" + p.outerPoint.id} x1={p.x} y1={p.y} x2={p.outerPoint.x} y2={p.outerPoint.y}
               stroke="red"/>
@@ -92,24 +97,9 @@ export class SkillsPolygon extends React.Component {
 
     return lines;
   }
-
-  renderPoint(currentPoint) {
-    const x = currentPoint.x;
-    const y = currentPoint.y;
-    const pointRadius = 2;
-
-    return (
-      <Fragment key={currentPoint.id + "-" + currentPoint.x + "-" + currentPoint.y}>
-        <circle
-          cx={x}
-          cy={y}
-          r={pointRadius}
-          fill="black"
-          key={`${currentPoint.id}-${x}-${y}`}
-        />
-        <PointLabel fontSize={this.config.fontSize} fontColor={this.config.fontColor} point={currentPoint}/>
-      </Fragment>
-    )
+  
+  handler(point) {
+    console.log('Handler', point);
   }
 }
 

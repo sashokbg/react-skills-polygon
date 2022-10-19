@@ -1,6 +1,5 @@
 export class Polygon {
   points = [];
-  _outerPoints = [];
 
   constructor(points) {
     this.points = points;
@@ -16,16 +15,21 @@ export class Polygon {
    */
   calculatePointPositions(radius) {
     let n = this.points.length;
+    
+    const outerPoints = [];
 
     for (let i = 0; i < n; i++) {
       const currentPoint = this.points[i];
-      currentPoint.calculatePosition(i * 360 / n, radius / 10 * currentPoint.value);
+      currentPoint.calculatePosition(i * 360 / n, radius);
 
       const outerPoint = this.points[i].clone();
       outerPoint.isOuter = true;
       outerPoint.calculatePosition(i * 360 / n, radius);
       currentPoint.outerPoint = outerPoint;
+      outerPoints.push(outerPoint);
     }
+    
+    return outerPoints;
   }
 
 }

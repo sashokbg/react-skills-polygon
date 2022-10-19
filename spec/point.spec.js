@@ -1,5 +1,4 @@
 import {Point} from "../src/model/point.js";
-import {Polygon} from "../src/model/polygon.js";
 
 describe("A point", () => {
   it("Can calculate its position given a radius and an angle", () => {
@@ -37,6 +36,7 @@ describe("A point", () => {
       [-50, -50, 3],
       [-50, 50, 4],
       [-50, 0, 4],
+      [0, -50, 2],
     ])("Point coordinates x=%s, y=%s gives quadrant %s", (x, y, quadrant) => {
       let point = new Point(1, x, y, 5, "test");
 

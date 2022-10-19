@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-export default class PointInput extends  Component{
+export class PointInputComponent extends  Component{
   constructor(props) {
     super(props); // Properties are read only
 
