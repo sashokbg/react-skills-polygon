@@ -36,7 +36,11 @@ export class App extends Component {
   render() {
     return (
       <div>
-        <SkillsPolygon fontSize="24" baseColor="#FF0000" radius={200} points={this.state.points} ref={this.skillsPolygon}/>
+        <SkillsPolygon fontSize="24"
+                       baseColor="#FF0FFF"
+                       radius={200}
+                       points={this.state.points}
+                       ref={this.skillsPolygon}/>
 
         {this.state.pointInputs}
 

@@ -1,7 +1,7 @@
 import React from "react";
 import {Polygon} from "../model/polygon.js";
 import {PointComponent} from "./point.component";
-import {brighten} from "../model/color-brightner.js";
+import pSBC from 'shade-blend-color';
 
 export class SkillsPolygon extends React.Component {
   constructor(props) {
@@ -16,7 +16,7 @@ export class SkillsPolygon extends React.Component {
       fontColor: this.props.fontColor ? this.props.fontColor : 'black',
       radius: this.props.radius ? this.props.radius : 90,
       fillColor: this.props.fillColor ? this.props.fillColor : 'gray',
-      baseColor: this.props.baseColor ? this.props.baseColor : '#FFC0CB'
+      baseColor: this.props.baseColor ? this.props.baseColor : '#FF0FFF'
     }
   }
 
@@ -76,15 +76,15 @@ export class SkillsPolygon extends React.Component {
         <polygon
           key="polygon-outer"
           points={pointsString}
-          style={{fill: brighten(this.config.baseColor, 75), stroke: "pink"}}/>
+          style={{fill: pSBC(0.80, this.config.baseColor), stroke: "pink"}}/>
         <polygon
           key="polygon-outer2"
           points={points2String}
-          style={{fill: brighten(this.config.baseColor, 60), stroke: "pink"}}/>
+          style={{fill: pSBC(0.60, this.config.baseColor), stroke: "pink"}}/>
         <polygon
           key="polygon-outer3"
           points={points3String}
-          style={{fill: brighten(this.config.baseColor, 30), stroke: "pink"}}/>
+          style={{fill: pSBC(0.30, this.config.baseColor), stroke: "pink"}}/>
         <polygon
           key="polygon-outer4"
           points={points4String}
@@ -96,11 +96,14 @@ export class SkillsPolygon extends React.Component {
   drawPolygon() {
     const pointsString = this.innerPoints.reduce((previous, point) => previous + " " + point.x + "," + point.y, "") || "";
     return (
-      <polygon
-        key="polygon"
-        fillOpacity={0.8}
-        points={pointsString}
-        style={{fill: this.config.fillColor, stroke: this.config.fillColor}}/>
+      <>
+        <polygon points={pointsString} fill="none" stroke="black" />
+        <polygon
+          key="polygon"
+          fillOpacity={0.6}
+          points={pointsString}
+          style={{fill: this.config.fillColor, stroke: this.config.fillColor}}/>
+      </>
     )
   }
 
@@ -109,8 +112,10 @@ export class SkillsPolygon extends React.Component {
 
     for (let p of this.innerPoints) {
       lines.push(
-        <line key={p.id + "-" + p.outerPoint.id} x1={p.x} y1={p.y} x2={p.outerPoint.x} y2={p.outerPoint.y}
+        < >
+          <line key={p.id + "-" + p.outerPoint.id} x1={0} y1={0} x2={p.outerPoint.x} y2={p.outerPoint.y}
               stroke="black"/>
+        < />
       )
     }
 
