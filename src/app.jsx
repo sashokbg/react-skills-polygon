@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {Point} from "./model/point.js";
-import {Polygon} from "./model/polygon.js";
 import {SkillsPolygon} from "./modules/skills-polygon.component";
 import {PointInputComponent} from "./modules/point-input.component";
+import {Polygon} from "./model/polygon";
 
 export class App extends Component {
   constructor(props) {
@@ -23,20 +23,20 @@ export class App extends Component {
         p5,
       ],
       pointInputs: [
-        <PointInputComponent key="A" point={p1} handler={() => this.inputsHandler(p1)}/>,
-        <PointInputComponent key="B" point={p2} handler={() => this.inputsHandler(p2)}/>,
-        <PointInputComponent key="C" point={p3} handler={() => this.inputsHandler(p3)}/>,
-        <PointInputComponent key="D" point={p4} handler={() => this.inputsHandler(p4)}/>,
-        <PointInputComponent key="E" point={p5} handler={() => this.inputsHandler(p5)}/>,
+        <PointInputComponent key="A" point={p1} handler={(old, n) => this.inputsHandler(old, n)}/>,
+        <PointInputComponent key="B" point={p2} handler={(old, n) => this.inputsHandler(old, n)}/>,
+        <PointInputComponent key="C" point={p3} handler={(old, n) => this.inputsHandler(old, n)}/>,
+        <PointInputComponent key="D" point={p4} handler={(old, n) => this.inputsHandler(old, n)}/>,
+        <PointInputComponent key="E" point={p5} handler={(old, n) => this.inputsHandler(old, n)}/>,
       ]
     }
-    this.skillsPolygon = React.createRef();
   }
 
   render() {
+    const polygon = new Polygon(this.state.points);
     return (
       <div>
-        <SkillsPolygon fontSize="24" baseColor="#FF0000" radius={200} points={this.state.points} ref={this.skillsPolygon}/>
+        <SkillsPolygon fontSize="24" baseColor="#FF0000" radius={200} polygon={polygon} />
 
         {this.state.pointInputs}
 
@@ -56,7 +56,7 @@ export class App extends Component {
     points.push(point)
     pointInputs.push(
       //TODO why "this" is undefined if passing handler reference
-      <PointInputComponent key={point.id} point={point} handler={() => this.inputsHandler(point)}/>
+      <PointInputComponent key={point.id} point={point} handler={(oldPoint, changedPoint) => this.inputsHandler(oldPoint, changedPoint)}/>
     )
 
     this.setState({
@@ -65,7 +65,12 @@ export class App extends Component {
     });
   }
 
-  inputsHandler(point) {
-    this.skillsPolygon.current.setState({polygon: new Polygon(this.state.points)});
+  inputsHandler(oldPoint, point) {
+    this.setState((oldState) => {
+      let points = oldState.points.map(p => p === oldPoint ? point : p);
+      return {points: points, pointInputs: oldState.pointInputs}
+    })
+    // this.skillsPolygon.current.setState({polygon: new Polygon(this.state.points)}); //TODO pas bon, passer par les props
+    // TODO context vs redux - framework de state?
   }
 }

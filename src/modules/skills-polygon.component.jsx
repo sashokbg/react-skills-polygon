@@ -1,14 +1,14 @@
 import React from "react";
 import {Polygon} from "../model/polygon.js";
 import {PointComponent} from "./point.component";
-import {brighten} from "../model/color-brightner.js";
+import {brighten} from "../model/color-brightner";
 
 export class SkillsPolygon extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      polygon: new Polygon(this.props.points),
+      polygon: this.props.polygon
     }
 
     this.config = {
@@ -33,7 +33,7 @@ export class SkillsPolygon extends React.Component {
   }
 
   render() {
-    this.state.points = this.innerPoints;
+    this.state.polygon = this.props.polygon;
 
     let radius = this.config.radius;
     let outerPoints = this.polygon.calculatePointPositions(radius)

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-export class PointInputComponent extends  Component{
+export class PointInputComponent extends Component {
   constructor(props) {
     super(props); // Properties are read only
 
@@ -22,15 +22,17 @@ export class PointInputComponent extends  Component{
   }
 
   handleValue(e) {
-    if(e.target.type === 'text') {
-      this.state.point.text = e.target.value;
+    let clone = this.state.point.clone();
+    if (e.target.type === 'text') {
+      clone.text = e.target.value;
     } else {
-      this.state.point.value = e.target.value;
+      clone.value = e.target.value;
     }
 
+    this.props.handler(this.state.point, clone);
+
     this.setState({
-      point: this.props.point
+      point: clone
     })
-    this.props.handler(this.state.point);
   }
 }
