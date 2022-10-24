@@ -66,6 +66,10 @@ export class PointLabelComponent extends Component {
         break;
     }
 
+    if(this.point.x === 0 ) {
+      textXOffset = -this.point.text?.length * this.fontSize * FONT_RATIO / 2;
+    }
+
     return <text key={this.getKey(x, y)}
                  fontSize={this.fontSize + "px"}
                  fontFamily="monospace"

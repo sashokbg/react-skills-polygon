@@ -5,20 +5,19 @@ let point1, point2, point3;
 
 describe("Polygon", () => {
   beforeEach(() => {
-    point1 = new Point(1, 0, 0, 5, "test1");
-    point2 = new Point(2, 0, 0, 5, "test2");
-    point3 = new Point(3, 0, 0, 5, "test3");
+    point1 = new Point( 0, 0, 5, "test1");
+    point2 = new Point( 0, 0, 5, "test2");
+    point3 = new Point( 0, 0, 5, "test3");
   })
 
   describe("Can calculate point locations", () => {
     test("One point with value 5/10", () => {
-      let point = new Point(1, 0, 0, 5, "test");
-      const polygon = new Polygon([point]);
+      const polygon = new Polygon([point1]);
 
       polygon.calculatePointPositions(50);
 
-      expect(point.y).toBe(25);
-      expect(point.x).toBe(0);
+      expect(point1.y).toBe(25);
+      expect(point1.x).toBe(0);
     })
 
     test("Two points with value 5/10", () => {
@@ -73,5 +72,4 @@ describe("Polygon", () => {
       expect(polygon.outerPoints[1].y).toBe(-25);
     })
   });
-
 })

@@ -13,6 +13,8 @@ export class App extends Component {
     const p3 = new Point(0, 0, 8, "Agile");
     const p4 = new Point(0, 0, 9, "Testing");
     const p5 = new Point(0, 0, 4, "Soft Skills");
+    const p6 = new Point(0, 0, 4, "Soft Skills");
+    const p7 = new Point(0, 0, 4, "Soft Skills");
 
     this.state = {
       points: [
@@ -21,6 +23,8 @@ export class App extends Component {
         p3,
         p4,
         p5,
+        p6,
+        p7,
       ],
       pointInputs: [
         <PointInputComponent key="A" point={p1} handler={() => this.inputsHandler(p1)}/>,
@@ -28,6 +32,8 @@ export class App extends Component {
         <PointInputComponent key="C" point={p3} handler={() => this.inputsHandler(p3)}/>,
         <PointInputComponent key="D" point={p4} handler={() => this.inputsHandler(p4)}/>,
         <PointInputComponent key="E" point={p5} handler={() => this.inputsHandler(p5)}/>,
+        <PointInputComponent key="F" point={p6} handler={() => this.inputsHandler(p6)}/>,
+        <PointInputComponent key="G" point={p7} handler={() => this.inputsHandler(p7)}/>,
       ]
     }
     this.skillsPolygon = React.createRef();

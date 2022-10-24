@@ -16,12 +16,11 @@ describe("A point", () => {
 
     expect(point.x).toEqual(point2.x);
     expect(point.y).toEqual(point2.y);
-    expect(point.id + "-clone").toEqual(point2.id);
     expect(point.text).toEqual(point2.text);
   });
 
   it("Is not outer by defalt", () => {
-    const point = new Point(0, 0, 0, 5, "Some text");
+    const point = new Point(0, 0, 5, "Some text");
     expect(point.isOuter).toEqual(false);
   })
 
@@ -38,7 +37,7 @@ describe("A point", () => {
       [-50, 0, 4],
       [0, -50, 2],
     ])("Point coordinates x=%s, y=%s gives quadrant %s", (x, y, quadrant) => {
-      let point = new Point(1, x, y, 5, "test");
+      let point = new Point(x, y, 5, "test");
 
       expect(point.findQuadrant()).toBe(quadrant);
     })

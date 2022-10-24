@@ -17,8 +17,13 @@ export class PointInputComponent extends  Component{
 
         <input type="text" value={this.state.point.text}
                onChange={(e) => this.handleValue(e)} placeholder="Text"/>
+        <button onChange={() => this.delete()}>Delete</button>
       </div>
     )
+  }
+
+  delete() {
+
   }
 
   handleValue(e) {
